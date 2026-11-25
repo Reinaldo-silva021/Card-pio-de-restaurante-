@@ -1,0 +1,2247 @@
+Por que não está abrindo o resumo do cardápio com base nesse código?
+
+
+
+"<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cardápio Digital - Restaurante Sabor & Tradição</title>
+
+<!-- Google Fonts & Font Awesome Icons -->
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+:root {
+
+/* Palette */
+
+--bg-main: #f8fafc;
+
+--bg-surface: #ffffff;
+
+--bg-card: #ffffff;
+
+--primary: #9a3412;
+
+--primary-light: #ffedd5;
+
+--primary-hover: #7c2d12;
+
+--accent: #d97706;
+
+--text-main: #0f172a;
+
+--text-muted: #475569;
+
+--border: #e2e8f0;
+
+
+/* Accessibility Defaults */
+
+--base-font-size: 16px;
+
+--card-title-size: 1.25rem;
+
+--body-size: 0.95rem;
+
+--touch-target: 48px;
+
+
+
+/* Motion & Shadows */
+
+--transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+--shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+
+--shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+
+--shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+
+}
+
+
+
+/* High Accessibility Mode (Maria das Graças) */
+
+body.senior-mode {
+
+--base-font-size: 19px;
+
+--card-title-size: 1.5rem;
+
+--body-size: 1.15rem;
+
+--touch-target: 56px;
+
+--text-main: #000000;
+
+--text-muted: #1e293b;
+
+--border: #94a3b8;
+
+}
+
+
+
+{
+box-sizing: border-box;
+
+margin: 0;
+
+padding: 0;
+
+-webkit-tap-highlight-color: transparent;
+
+}
+
+
+
+body {
+
+font-family: 'Plus Jakarta Sans', sans-serif;
+
+font-size: var(--base-font-size);
+
+background-color: #0f172a;
+
+color: var(--text-main);
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+min-height: 100vh;
+
+padding: 20px;
+
+}
+
+
+
+/* Simulação de Moldura de Tablet (1280x800 Aspect Ratio) */
+
+.tablet-frame {
+
+width: 1280px;
+
+height: 800px;
+
+background: var(--bg-main);
+
+border-radius: 36px;
+
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 0 12px #1e293b;
+
+display: flex;
+
+flex-direction: column;
+
+overflow: hidden;
+
+position: relative;
+
+}
+
+
+
+/* Tablet Header Chrome */
+
+.app-header {
+
+background: var(--bg-surface);
+
+height: 80px;
+
+padding: 0 32px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+border-bottom: 2px solid var(--border);
+
+z-index: 10;
+
+}
+
+
+
+.brand-logo {
+
+display: flex;
+
+align-items: center;
+
+gap: 12px;
+
+}
+
+
+
+.brand-logo i {
+
+font-size: 28px;
+
+color: var(--primary);
+
+}
+
+
+
+.brand-title {
+
+font-size: 1.4rem;
+
+font-weight: 800;
+
+color: var(--primary);
+
+letter-spacing: -0.5px;
+
+}
+
+
+
+.brand-subtitle {
+
+font-size: 0.8rem;
+
+color: var(--text-muted);
+
+font-weight: 500;
+
+}
+
+
+
+/* Search & Accessibility Bar */
+
+.header-actions {
+
+display: flex;
+
+align-items: center;
+
+gap: 16px;
+
+}
+
+
+
+.search-box {
+
+position: relative;
+
+width: 280px;
+
+}
+
+
+
+.search-box input {
+
+width: 100%;
+
+height: var(--touch-target);
+
+padding: 0 16px 0 44px;
+
+border-radius: 99px;
+
+border: 2px solid var(--border);
+
+background: var(--bg-main);
+
+font-family: inherit;
+
+font-size: 0.95rem;
+
+outline: none;
+
+transition: var(--transition);
+
+}
+
+
+
+.search-box input:focus {
+
+border-color: var(--primary);
+
+background: var(--bg-surface);
+
+box-shadow: 0 0 0 4px var(--primary-light);
+
+}
+
+
+
+.search-box i {
+
+position: absolute;
+
+left: 16px;
+
+top: 50%;
+
+transform: translateY(-50%);
+
+color: var(--text-muted);
+
+font-size: 1.1rem;
+
+}
+
+
+
+.accessibility-btn {
+
+height: var(--touch-target);
+
+padding: 0 20px;
+
+border-radius: 99px;
+
+border: 2px solid var(--accent);
+
+background: #fef3c7;
+
+color: #78350f;
+
+font-weight: 700;
+
+font-size: 0.9rem;
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+transition: var(--transition);
+
+}
+
+
+
+.accessibility-btn:hover, .accessibility-btn.active {
+
+background: var(--accent);
+
+color: #ffffff;
+
+transform: scale(1.03);
+
+}
+
+
+
+/* Main Container: Sidebar + Content Area */
+
+.app-body {
+
+display: flex;
+
+flex: 1;
+
+overflow: hidden;
+
+}
+
+
+
+/* Navigation Sidebar */
+
+.sidebar-nav {
+
+width: 260px;
+
+background: var(--bg-surface);
+
+border-right: 2px solid var(--border);
+
+padding: 24px 16px;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 8px;
+
+}
+
+
+
+.nav-item {
+
+height: var(--touch-target);
+
+padding: 0 20px;
+
+border-radius: 16px;
+
+border: none;
+
+background: transparent;
+
+color: var(--text-muted);
+
+font-family: inherit;
+
+font-size: 1.05rem;
+
+font-weight: 600;
+
+display: flex;
+
+align-items: center;
+
+gap: 14px;
+
+cursor: pointer;
+
+transition: var(--transition);
+
+text-align: left;
+
+width: 100%;
+
+}
+
+
+
+.nav-item i {
+
+font-size: 1.25rem;
+
+width: 24px;
+
+}
+
+
+
+.nav-item:hover {
+
+background: var(--bg-main);
+
+color: var(--text-main);
+
+}
+
+
+
+.nav-item.active {
+
+background: var(--primary-light);
+
+color: var(--primary);
+
+font-weight: 800;
+
+transform: translateX(4px);
+
+}
+
+
+
+.nav-item.active i {
+
+color: var(--primary);
+
+}
+
+
+
+/* Content Area */
+
+.content-area {
+
+flex: 1;
+
+padding: 24px 32px;
+
+overflow-y: auto;
+
+scroll-behavior: smooth;
+
+}
+
+
+
+.section-header {
+
+margin-bottom: 20px;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: flex-end;
+
+}
+
+
+
+.section-title {
+
+font-size: 1.6rem;
+
+font-weight: 800;
+
+color: var(--text-main);
+
+display: flex;
+
+align-items: center;
+
+gap: 12px;
+
+}
+
+
+
+.section-subtitle {
+
+font-size: 0.95rem;
+
+color: var(--text-muted);
+
+margin-top: 4px;
+
+}
+
+
+
+/* Filter Chips */
+
+.filter-bar {
+
+display: flex;
+
+gap: 10px;
+
+margin-bottom: 24px;
+
+overflow-x: auto;
+
+padding-bottom: 4px;
+
+}
+
+
+
+.filter-chip {
+
+height: 38px;
+
+padding: 0 16px;
+
+border-radius: 99px;
+
+border: 1px solid var(--border);
+
+background: var(--bg-surface);
+
+color: var(--text-muted);
+
+font-weight: 600;
+
+font-size: 0.85rem;
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+gap: 6px;
+
+transition: var(--transition);
+
+white-space: nowrap;
+
+}
+
+
+
+.filter-chip:hover, .filter-chip.active {
+
+border-color: var(--primary);
+
+background: var(--primary);
+
+color: #ffffff;
+
+}
+
+
+
+/* Cards Grid */
+
+.grid-menu {
+
+display: grid;
+
+grid-template-columns: repeat(2, 1fr);
+
+gap: 24px;
+
+padding-bottom: 40px;
+
+}
+
+
+
+/* Individual Dish Card */
+
+.card-dish {
+
+background: var(--bg-card);
+
+border-radius: 20px;
+
+border: 1px solid var(--border);
+
+overflow: hidden;
+
+box-shadow: var(--shadow-sm);
+
+display: flex;
+
+flex-direction: column;
+
+transition: var(--transition);
+
+position: relative;
+
+animation: fadeIn 0.4s ease-out;
+
+}
+
+
+
+@keyframes fadeIn {
+
+from { opacity: 0; transform: translateY(12px); }
+
+to { opacity: 1; transform: translateY(0); }
+
+}
+
+
+
+.card-dish:hover {
+
+box-shadow: var(--shadow-lg);
+
+transform: translateY(-4px);
+
+border-color: #cbd5e1;
+
+}
+
+
+
+.dish-img-wrapper {
+
+width: 100%;
+
+height: 180px;
+
+position: relative;
+
+overflow: hidden;
+
+background: #e2e8f0;
+
+}
+
+
+
+.dish-img-wrapper img {
+
+width: 100%;
+
+height: 100%;
+
+object-fit: cover;
+
+transition: transform 0.5s ease;
+
+}
+
+
+
+.card-dish:hover .dish-img-wrapper img {
+
+transform: scale(1.05);
+
+}
+
+
+
+.portion-badge {
+
+position: absolute;
+
+top: 12px;
+
+left: 12px;
+
+background: rgba(15, 23, 42, 0.85);
+
+backdrop-filter: blur(8px);
+
+color: #ffffff;
+
+padding: 6px 14px;
+
+border-radius: 99px;
+
+font-size: 0.8rem;
+
+font-weight: 700;
+
+display: flex;
+
+align-items: center;
+
+gap: 6px;
+
+box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+}
+
+
+
+.dish-content {
+
+padding: 20px;
+
+display: flex;
+
+flex-direction: column;
+
+flex: 1;
+
+justify-content: space-between;
+
+}
+
+
+
+.dish-header {
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: flex-start;
+
+gap: 12px;
+
+margin-bottom: 8px;
+
+}
+
+
+
+.dish-title {
+
+font-size: var(--card-title-size);
+
+font-weight: 800;
+
+color: var(--text-main);
+
+line-height: 1.25;
+
+}
+
+
+
+.dish-price {
+
+font-size: 1.3rem;
+
+font-weight: 800;
+
+color: var(--primary);
+
+white-space: nowrap;
+
+}
+
+
+
+.dish-description {
+
+font-size: var(--body-size);
+
+color: var(--text-muted);
+
+line-height: 1.45;
+
+margin-bottom: 16px;
+
+}
+
+
+
+/* Allergen Badges */
+
+.allergens-list {
+
+display: flex;
+
+flex-wrap: wrap;
+
+gap: 6px;
+
+margin-bottom: 20px;
+
+}
+
+
+
+.allergen-tag {
+
+font-size: 0.75rem;
+
+font-weight: 700;
+
+padding: 4px 10px;
+
+border-radius: 6px;
+
+display: inline-flex;
+
+align-items: center;
+
+gap: 4px;
+
+}
+
+
+
+.allergen-tag.warning {
+
+background: #fef2f2;
+
+color: #dc2626;
+
+border: 1px solid #fecaca;
+
+}
+
+
+
+.allergen-tag.safe {
+
+background: #f0fdf4;
+
+color: #16a34a;
+
+border: 1px solid #bbf7d0;
+
+}
+
+
+
+/* Action Footer in Card */
+
+.card-footer {
+
+display: flex;
+
+gap: 10px;
+
+align-items: center;
+
+}
+
+
+
+.btn-detail {
+
+height: var(--touch-target);
+
+padding: 0 16px;
+
+border-radius: 12px;
+
+border: 2px solid var(--border);
+
+background: var(--bg-surface);
+
+color: var(--text-main);
+
+font-weight: 700;
+
+font-size: 0.9rem;
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+gap: 6px;
+
+transition: var(--transition);
+
+flex: 1;
+
+justify-content: center;
+
+}
+
+
+
+.btn-detail:hover {
+
+background: var(--bg-main);
+
+border-color: #cbd5e1;
+
+}
+
+
+
+.btn-order {
+
+height: var(--touch-target);
+
+padding: 0 20px;
+
+border-radius: 12px;
+
+border: none;
+
+background: var(--primary);
+
+color: #ffffff;
+
+font-weight: 800;
+
+font-size: 0.95rem;
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+transition: var(--transition);
+
+flex: 1.3;
+
+justify-content: center;
+
+}
+
+
+
+.btn-order:hover {
+
+background: var(--primary-hover);
+
+box-shadow: 0 4px 12px rgba(154, 52, 18, 0.3);
+
+transform: scale(1.02);
+
+}
+
+
+
+.btn-order:active {
+
+transform: scale(0.98);
+
+}
+
+
+
+/* Floating Cart Indicator */
+
+.floating-cart {
+
+position: absolute;
+
+bottom: 24px;
+
+right: 32px;
+
+background: var(--text-main);
+
+color: #ffffff;
+
+height: 64px;
+
+padding: 0 28px;
+
+border-radius: 99px;
+
+box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+display: flex;
+
+align-items: center;
+
+gap: 16px;
+
+cursor: pointer;
+
+transition: var(--transition);
+
+z-index: 20;
+
+}
+
+
+
+.floating-cart:hover {
+
+transform: scale(1.05);
+
+background: #020617;
+
+}
+
+
+
+.cart-count {
+
+background: var(--primary);
+
+color: #ffffff;
+
+width: 28px;
+
+height: 28px;
+
+border-radius: 50%;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+font-weight: 800;
+
+font-size: 0.85rem;
+
+}
+
+
+
+.cart-text {
+
+font-weight: 700;
+
+font-size: 1rem;
+
+}
+
+
+
+.cart-total {
+
+font-weight: 800;
+
+color: var(--accent);
+
+font-size: 1.1rem;
+
+border-left: 1px solid #334155;
+
+padding-left: 16px;
+
+}
+
+
+
+/* Modal de Detalhes Completo (Solução IHC para Fotos e Alergênicos) */
+
+.modal-overlay {
+
+position: absolute;
+
+top: 0;
+
+left: 0;
+
+width: 100%;
+
+height: 100%;
+
+background: rgba(15, 23, 42, 0.7);
+
+backdrop-filter: blur(6px);
+
+display: none;
+
+justify-content: center;
+
+align-items: center;
+
+z-index: 100;
+
+animation: fadeIn 0.2s ease;
+
+}
+
+
+
+.modal-card {
+
+width: 720px;
+
+background: var(--bg-surface);
+
+border-radius: 28px;
+
+overflow: hidden;
+
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+
+display: flex;
+
+flex-direction: column;
+
+max-height: 90%;
+
+}
+
+
+
+.modal-header-img {
+
+height: 260px;
+
+width: 100%;
+
+position: relative;
+
+}
+
+
+
+.modal-header-img img {
+
+width: 100%;
+
+height: 100%;
+
+object-fit: cover;
+
+}
+
+
+
+.close-modal {
+
+position: absolute;
+
+top: 16px;
+
+right: 16px;
+
+width: 44px;
+
+height: 44px;
+
+border-radius: 50%;
+
+background: rgba(255,255,255,0.9);
+
+border: none;
+
+font-size: 1.2rem;
+
+cursor: pointer;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+color: var(--text-main);
+
+box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+}
+
+
+
+.modal-body {
+
+padding: 28px;
+
+overflow-y: auto;
+
+}
+
+
+
+.modal-title-row {
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+margin-bottom: 12px;
+
+}
+
+
+
+.modal-title {
+
+font-size: 1.6rem;
+
+font-weight: 800;
+
+}
+
+
+
+.modal-price {
+
+font-size: 1.6rem;
+
+font-weight: 800;
+
+color: var(--primary);
+
+}
+
+
+
+.ingredients-box {
+
+background: var(--bg-main);
+
+padding: 16px;
+
+border-radius: 16px;
+
+margin: 16px 0;
+
+border: 1px solid var(--border);
+
+}
+
+
+
+.ingredients-title {
+
+font-weight: 700;
+
+margin-bottom: 6px;
+
+font-size: 0.95rem;
+
+color: var(--text-main);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<!-- SIMULAÇÃO DO TABLET NA MESA -->
+
+<div class="tablet-frame">
+
+
+<!-- HEADER FIXO COM BUSCA E ACESSIBILIDADE -->
+
+<header class="app-header">
+
+<div class="brand-logo">
+
+<i class="fa-solid fa-utensils"></i>
+
+<div>
+
+<div class="brand-title">Sabor & Tradição</div>
+
+<div class="brand-subtitle">Cardápio Digital • Mesa 04</div>
+
+</div>
+
+</div>
+
+
+
+<div class="header-actions">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input type="text" id="searchInput" placeholder="Buscar prato ou ingrediente..." onkeyup="filterDishes()">
+
+</div>
+
+
+
+<!-- Botão Especial de Acessibilidade para a Persona Maria das Graças -->
+
+<button class="accessibility-btn" id="seniorBtn" onclick="toggleSeniorMode()">
+
+<i class="fa-solid fa-eye"></i>
+
+<span>Modo Texto Ampliado</span>
+
+</button>
+
+</div>
+
+</header>
+
+
+
+<div class="app-body">
+
+
+<!-- NAVEGAÇÃO LATERAL (Substitui as 10 páginas por abas diretas) -->
+
+<nav class="sidebar-nav">
+
+<button class="nav-item active" onclick="switchCategory('entradas', this)">
+
+<i class="fa-solid fa-bread-slice"></i> Entradas
+
+</button>
+
+<button class="nav-item" onclick="switchCategory('carnes', this)">
+
+<i class="fa-solid fa-drumstick-bite"></i> Carnes Nobres
+
+</button>
+
+<button class="nav-item" onclick="switchCategory('peixes', this)">
+
+<i class="fa-solid fa-fish"></i> Peixes & Frutos
+
+</button>
+
+<button class="nav-item" onclick="switchCategory('massas', this)">
+
+<i class="fa-solid fa-bowl-rice"></i> Massas & Fit
+
+</button>
+
+<button class="nav-item" onclick="switchCategory('sobremesas', this)">
+
+<i class="fa-solid fa-ice-cream"></i> Sobremesas & Drinks
+
+</button>
+
+</nav>
+
+
+
+<!-- ÁREA DE CONTEÚDO PRINCIPAL -->
+
+<main class="content-area">
+
+<div class="section-header">
+
+<div>
+
+<h2 class="section-title" id="categoryTitle">
+
+<i class="fa-solid fa-bread-slice" style="color: var(--primary);"></i> Entradas e Petiscos
+
+</h2>
+
+<p class="section-subtitle">Porções preparadas na hora para iniciar sua refeição</p>
+
+</div>
+
+</div>
+
+
+
+<!-- FILTROS RÁPIDOS DE DIETA/ALERGÊNICOS -->
+
+<div class="filter-bar">
+
+<button class="filter-chip active" onclick="filterTag('all', this)">Todos</button>
+
+<button class="filter-chip" onclick="filterTag('sem-gluten', this)"><i class="fa-solid fa-wheat-awn-circle-exclamation"></i> Sem Glúten</button>
+
+<button class="filter-chip" onclick="filterTag('sem-lactose', this)"><i class="fa-solid fa-cow"></i> Sem Lactose</button>
+
+<button class="filter-chip" onclick="filterTag('individual', this)"><i class="fa-solid fa-user"></i> Individual</button>
+
+<button class="filter-chip" onclick="filterTag('familia', this)"><i class="fa-solid fa-user-group"></i> Para 2 ou mais</button>
+
+</div>
+
+
+
+<!-- GRID DE CARDS COM FOTOS E PORÇÕES CLARAS -->
+
+<div class="grid-menu" id="dishesGrid">
+
+<!-- Injetado via Javascript para animações e troca de categorias -->
+
+</div>
+
+</main>
+
+</div>
+
+
+
+<!-- CARRINHO FLUTUANTE DE RÁPIDO ACESSO -->
+
+<div class="floating-cart" onclick="alert('Abrindo resumo do pedido da Mesa 04...')">
+
+<i class="fa-solid fa-basket-shopping" style="font-size: 1.2rem;"></i>
+
+<span class="cart-text">Seu Pedido</span>
+
+<span class="cart-count" id="cartCount">2</span>
+
+<span class="cart-total" id="cartTotal">R$ 186,00</span>
+
+</div>
+
+
+
+<!-- MODAL DE DETALHES (RESOLVE DÚVIDAS DE INGREDIENTES E FOTOS GRANDES) -->
+
+<div class="modal-overlay" id="dishModal">
+
+<div class="modal-card">
+
+<div class="modal-header-img">
+
+<img id="modalImg" src="" alt="Prato">
+
+<button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="modal-title-row">
+
+<h3 class="modal-title" id="modalTitle">Nome do Prato</h3>
+
+<span class="modal-price" id="modalPrice">R$ 0,00</span>
+
+</div>
+
+<div id="modalPortion" style="font-weight: 700; color: var(--accent); margin-bottom: 12px;"></div>
+
+<p class="dish-description" id="modalDesc"></p>
+
+
+
+<div class="ingredients-box">
+
+<div class="ingredients-title"><i class="fa-solid fa-list-check"></i> Ingredientes Detalhados:</div>
+
+<p id="modalIngredients" style="font-size: 0.9rem; color: var(--text-muted);"></p>
+
+</div>
+
+
+
+<div id="modalAllergens" class="allergens-list"></div>
+
+
+
+<div style="display: flex; gap: 16px; margin-top: 20px;">
+
+<button class="btn-order" style="width: 100%;" onclick="addToCartModal()">
+
+<i class="fa-solid fa-plus"></i> Adicionar ao Pedido
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<script>
+
+// BASE DE DADOS TRADUZIDA E CORRIGIDA DO CARDÁPIO ORIGINAL (RESOLVENDO TODAS AS FALHAS DE IHC)
+
+const dishesData = {
+
+entradas: [
+
+{
+
+id: 1,
+
+nomeOriginal: "Delícia Colonial",
+
+nomeClaro: "Tábua de Salames & Torradas Artesanais",
+
+preco: 48.00,
+
+porcao: "Serve 2 pessoas (350g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/1",
+
+desc: "Seleção especial de embutidos suínos coloniais fatiados finos, acompanhados de torradas artesanais grelhadas no azeite de ervas finas.",
+
+ingredientes: "Salame italiano, copa defumada, queijo colonial, torradinhas de pão de fermentação natural, azeite extra virgem, alecrim e orégano.",
+
+alergens: [
+
+{ text: "Contém Glúten", type: "warning" },
+
+{ text: "Contém Lactose", type: "warning" }
+
+],
+
+tags: ["familia"]
+
+},
+
+{
+
+id: 2,
+
+nomeOriginal: "Surpresa do Mar do Sul",
+
+nomeClaro: "Iscas de Peixe Crocantes com Tartaro",
+
+preco: 62.00,
+
+porcao: "Serve 2 pessoas (400g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/2",
+
+desc: "Tiras suculentas de filé de pescada branca empanadas na farinha panko crocante. Acompanha molho tártaro especial da casa.",
+
+ingredientes: "Pescada branca fresca, farinha panko, limão siciliano, molho tártaro (maionese caseira, alcaparras e picles).",
+
+alergens: [
+
+{ text: "Contém Peixe", type: "warning" },
+
+{ text: "Contém Ovos", type: "warning" },
+
+{ text: "Sem Lactose", type: "safe" }
+
+],
+
+tags: ["sem-lactose", "familia"]
+
+},
+
+{
+
+id: 3,
+
+nomeOriginal: "Ninho de Ouro Tradicional",
+
+nomeClaro: "Bolinhos de Carne Seca com Mandioca",
+
+preco: 38.00,
+
+porcao: "Serve 2 pessoas (6 unidades)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/3",
+
+desc: "Bolinhos artesanais moldados com massa cremosa de mandioca cozida, recheados com carne seca desfiada e temperos da fazenda.",
+
+ingredientes: "Mandioca, carne seca desfiada, queijo coalho, tempero verde, alho e pimenta de cheiro (não ardida).",
+
+alergens: [
+
+{ text: "Sem Glúten", type: "safe" },
+
+{ text: "Contém Lactose", type: "warning" }
+
+],
+
+tags: ["sem-gluten", "familia"]
+
+},
+
+{
+
+id: 4,
+
+nomeOriginal: "Mistério de Queijos e Ervas",
+
+nomeClaro: "Tábua de Queijos Finos com Geleia",
+
+preco: 44.00,
+
+porcao: "Serve 2 pessoas (300g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/4",
+
+desc: "Variedade de queijos nobres (Brie, Gorgonzola e Gouda) acompanhados de geleia artesanal de pimenta/frutas e pães frescos.",
+
+ingredientes: "Queijo Brie, Gorgonzola, Gouda, geleia de morango com pimenta suave, pão baguete fatiado.",
+
+alergens: [
+
+{ text: "Contém Lactose", type: "warning" },
+
+{ text: "Contém Glúten", type: "warning" }
+
+],
+
+tags: ["familia"]
+
+}
+
+],
+
+carnes: [
+
+{
+
+id: 5,
+
+nomeOriginal: "Filé à Moda do Fundador",
+
+nomeClaro: "Filé Mignon ao Molho Madeira e Arroz",
+
+preco: 115.00,
+
+porcao: "Serve 2 pessoas fartamente (700g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/5",
+
+desc: "Medalhões de filé mignon grelhados no ponto desejado, cobertos com molho madeira artesanal e cogumelos frescos. Acompanha arroz biro-biro e batatas rústicas.",
+
+ingredientes: "Filé Mignon bovino, molho de vinho madeira, cogumelos paris, arroz, ovos, batata cozida e frita.",
+
+alergens: [
+
+{ text: "Sem Lactose", type: "safe" },
+
+{ text: "Contém Glúten", type: "warning" }
+
+],
+
+tags: ["sem-lactose", "familia"]
+
+},
+
+{
+
+id: 6,
+
+nomeOriginal: "Bife Imperial do Barão",
+
+nomeClaro: "Contrafilé Grelhado com Legumes e Arroz",
+
+preco: 98.00,
+
+porcao: "Serve 1 a 2 pessoas (500g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/6",
+
+desc: "Corte alto de contrafilé macio salteado na manteiga de ervas, servido com brócolis, cenoura ao vapor e arroz soltinho.",
+
+ingredientes: "Contrafilé nobre, manteiga, brócolis, cenoura, abobrinha, arroz branco.",
+
+alergens: [
+
+{ text: "Sem Glúten", type: "safe" },
+
+{ text: "Contém Lactose", type: "warning" }
+
+],
+
+tags: ["sem-gluten", "individual"]
+
+},
+
+{
+
+id: 7,
+
+nomeOriginal: "Segredo da Fazenda Sabor & Tradição",
+
+nomeClaro: "Costela Bovina Assada na Lenha com Farofa",
+
+preco: 128.00,
+
+porcao: "Serve 3 pessoas (900g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/7",
+
+desc: "Costela janela assada lentamente por 12 horas no forno a lenha. Acompanha farofa rica de bacon, mandioca frita e mandioca cozida.",
+
+ingredientes: "Costela bovina, mandioca, farinha de mandioca, bacon, cheiro verde e sal grosso.",
+
+alergens: [
+
+{ text: "Sem Lactose", type: "safe" },
+
+{ text: "Sem Glúten", type: "safe" }
+
+],
+
+tags: ["sem-gluten", "sem-lactose", "familia"]
+
+}
+
+],
+
+peixes: [
+
+{
+
+id: 8,
+
+nomeOriginal: "Moqueca Encanto das Águas",
+
+nomeClaro: "Moqueca Baiana de Garoupa e Camarão",
+
+preco: 145.00,
+
+porcao: "Serve 2 a 3 pessoas (800g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/8",
+
+desc: "Postas de peixe garoupa e camarões rosas cozidos em panela de barro com leite de coco, pimentões e azeite de dendê. Acompanha pirão e arroz.",
+
+ingredientes: "Peixe Garoupa, Camarão Rosa, leite de coco, azeite de dendê, pimentão vermelho e amarelo, coentro, farinha de mandioca.",
+
+alergens: [
+
+{ text: "Contém Frutos do Mar", type: "warning" },
+
+{ text: "Sem Lactose", type: "safe" },
+
+{ text: "Sem Glúten", type: "safe" }
+
+],
+
+tags: ["sem-gluten", "sem-lactose", "familia"]
+
+},
+
+{
+
+id: 9,
+
+nomeOriginal: "Bacalhau Dourado dos Navegantes",
+
+nomeClaro: "Bacalhau Lagareiro com Batatas ao Murro",
+
+preco: 160.00,
+
+porcao: "Serve 2 pessoas (650g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/9",
+
+desc: "Posta nobre de Bacalhau Gadus Morhua dessalgada e assada no azeite extra virgem com bastante alho, cebolas roxas, batatas ao murro e azeitonas pretas.",
+
+ingredientes: "Bacalhau nobre, azeite de oliva extra virgem, batata inglesa, alho, cebola roxa, azeitonas portuguesas.",
+
+alergens: [
+
+{ text: "Sem Lactose", type: "safe" },
+
+{ text: "Sem Glúten", type: "safe" }
+
+],
+
+tags: ["sem-gluten", "sem-lactose", "familia"]
+
+}
+
+],
+
+massas: [
+
+{
+
+id: 10,
+
+nomeOriginal: "Massa do Artista ao Molho Secreto",
+
+nomeClaro: "Fettuccine Italiano com Molho de Tomate Fresco",
+
+preco: 68.00,
+
+porcao: "Individual Generoso (400g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/10",
+
+desc: "Massa artesanal tipo fettuccine feita na casa, servida com molho rústico de tomates italianos maduros, manjericão fresco e queijo parmesão ralado.",
+
+ingredientes: "Farinha de trigo, ovos frescos, tomate italiano, alho, azeite, manjericão e queijo parmesão.",
+
+alergens: [
+
+{ text: "Contém Glúten", type: "warning" },
+
+{ text: "Contém Lactose", type: "warning" }
+
+],
+
+tags: ["individual"]
+
+},
+
+{
+
+id: 11,
+
+nomeOriginal: "Jardim do Éden Verde",
+
+nomeClaro: "Bowl Fit Vegetariano com Cogumelos e Quinoa",
+
+preco: 58.00,
+
+porcao: "Individual (350g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/11",
+
+desc: "Mix nutritivo de quinoa real, cogumelos Shimeji e Paris salteados no azeite, brócolis, legumes grelhados e sementes de girassol.",
+
+ingredientes: "Quinoa, cogumelos shimeji/paris, abobrinha, cenoura, tomate cereja, azeite e ervas.",
+
+alergens: [
+
+{ text: "Vegano", type: "safe" },
+
+{ text: "Sem Glúten", type: "safe" },
+
+{ text: "Sem Lactose", type: "safe" }
+
+],
+
+tags: ["sem-gluten", "sem-lactose", "individual"]
+
+}
+
+],
+
+sobremesas: [
+
+{
+
+id: 12,
+
+nomeOriginal: "Doce Tentação da Vovó",
+
+nomeClaro: "Pudim de Leite Condensado Tradicional",
+
+preco: 28.00,
+
+porcao: "Fatia Individual (180g)",
+
+imagem: "http://googleusercontent.com/labs_image_uploaded_from_feed/12",
+
+desc: "Pudim de leite condensado super cremoso, sem furinhos, servido com calda de caramelo artesanal e toque de baunilha.",
+
+ingredientes: "Leite condensado, leite integral, ovos e açúcar caramelizado.",
+
+alergens: [
+
+{ text: "Contém Lactose", type: "warning" },
+
+{ text: "Sem Glúten", type: "safe" }
+
+],
+
+tags: ["sem-gluten", "individual"]
+
+}
+
+]
+
+};
+
+
+
+let currentCategory = 'entradas';
+
+let currentTagFilter = 'all';
+
+let currentModalDish = null;
+
+
+
+// Renderizar cards na tela
+
+function renderDishes() {
+
+const grid = document.getElementById('dishesGrid');
+
+grid.innerHTML = '';
+
+
+
+let list = dishesData[currentCategory] || [];
+
+
+
+// Aplicar filtro de tags
+
+if (currentTagFilter !== 'all') {
+
+list = list.filter(d => d.tags.includes(currentTagFilter));
+
+}
+
+
+
+// Aplicar filtro da barra de busca
+
+const searchVal = document.getElementById('searchInput').value.toLowerCase();
+
+if (searchVal.trim() !== '') {
+
+list = list.filter(d =>
+
+d.nomeClaro.toLowerCase().includes(searchVal) ||
+
+d.nomeOriginal.toLowerCase().includes(searchVal) ||
+
+d.desc.toLowerCase().includes(searchVal)
+
+);
+
+}
+
+
+
+if (list.length === 0) {
+
+grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+
+<i class="fa-solid fa-utensils" style="font-size: 3rem; margin-bottom: 12px; opacity: 0.3;"></i>
+
+<p>Nenhum prato encontrado com os filtros selecionados.</p>
+
+</div>`;
+
+return;
+
+}
+
+
+
+list.forEach(dish => {
+
+const card = document.createElement('div');
+
+card.className = 'card-dish';
+
+
+
+const allergensHtml = dish.alergens.map(a =>
+
+`<span class="allergen-tag ${a.type}">${a.text}</span>`
+
+).join('');
+
+
+
+card.innerHTML = `
+
+<div class="dish-img-wrapper">
+
+<img src="${dish.imagem}" alt="${dish.nomeClaro}" loading="lazy">
+
+<div class="portion-badge">
+
+<i class="fa-solid fa-users"></i> ${dish.porcao}
+
+</div>
+
+</div>
+
+<div class="dish-content">
+
+<div>
+
+<div class="dish-header">
+
+<div>
+
+<h3 class="dish-title">${dish.nomeClaro}</h3>
+
+<div style="font-size: 0.75rem; color: #94a3b8; font-style: italic; margin-top: 2px;">
+
+Anteriormente: "${dish.nomeOriginal}"
+
+</div>
+
+</div>
+
+<span class="dish-price">R$ ${dish.preco.toFixed(2).replace('.', ',')}</span>
+
+</div>
+
+<p class="dish-description">${dish.desc}</p>
+
+</div>
+
+
+<div>
+
+<div class="allergens-list">
+
+${allergensHtml}
+
+</div>
+
+<div class="card-footer">
+
+<button class="btn-detail" onclick='openModal(${JSON.stringify(dish)})'>
+
+<i class="fa-solid fa-circle-info"></i> Detalhes
+
+</button>
+
+<button class="btn-order" onclick="addToCart('${dish.nomeClaro}', ${dish.preco})">
+
+<i class="fa-solid fa-plus"></i> Pedir
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+grid.appendChild(card);
+
+});
+
+}
+
+
+
+// Trocar Categoria
+
+function switchCategory(catKey, btn) {
+
+currentCategory = catKey;
+
+document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+
+btn.classList.add('active');
+
+
+
+const titles = {
+
+entradas: { name: 'Entradas e Petiscos', icon: 'fa-bread-slice' },
+
+carnes: { name: 'Carnes Nobres & Assados', icon: 'fa-drumstick-bite' },
+
+peixes: { name: 'Peixes & Frutos do Mar', icon: 'fa-fish' },
+
+massas: { name: 'Massas Artesanais & Fit', icon: 'fa-bowl-rice' },
+
+sobremesas: { name: 'Sobremesas & Bebidas', icon: 'fa-ice-cream' }
+
+};
+
+
+
+document.getElementById('categoryTitle').innerHTML =
+
+`<i class="fa-solid ${titles[catKey].icon}" style="color: var(--primary);"></i> ${titles[catKey].name}`;
+
+
+
+renderDishes();
+
+}
+
+
+
+// Filtros de Tag
+
+function filterTag(tag, btn) {
+
+currentTagFilter = tag;
+
+document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+
+btn.classList.add('active');
+
+renderDishes();
+
+}
+
+
+
+// Busca rápida
+
+function filterDishes() {
+
+renderDishes();
+
+}
+
+
+
+// Acessibilidade Senior (Persona Maria das Graças)
+
+function toggleSeniorMode() {
+
+document.body.classList.toggle('senior-mode');
+
+const btn = document.getElementById('seniorBtn');
+
+btn.classList.toggle('active');
+
+}
+
+
+
+// Modal de Detalhes
+
+function openModal(dish) {
+
+currentModalDish = dish;
+
+document.getElementById('modalImg').src = dish.imagem;
+
+document.getElementById('modalTitle').innerText = dish.nomeClaro;
+
+document.getElementById('modalPrice').innerText = `R$ ${dish.preco.toFixed(2).replace('.', ',')}`;
+
+document.getElementById('modalPortion').innerText = `Rendimento: ${dish.porcao}`;
+
+document.getElementById('modalDesc').innerText = dish.desc;
+
+document.getElementById('modalIngredients').innerText = dish.ingredientes;
+
+
+
+const allergensBox = document.getElementById('modalAllergens');
+
+allergensBox.innerHTML = dish.alergens.map(a =>
+
+`<span class="allergen-tag ${a.type}" style="font-size:0.85rem; padding:6px 12px;">${a.text}</span>`
+
+).join('');
+
+
+
+document.getElementById('dishModal').style.display = 'flex';
+
+}
+
+
+
+function closeModal() {
+
+document.getElementById('dishModal').style.display = 'none';
+
+}
+
+
+
+// Adicionar ao carrinho
+
+let cartCount = 2;
+
+let cartTotal = 186.00;
+
+
+
+function addToCart(nome, preco) {
+
+cartCount++;
+
+cartTotal += preco;
+
+document.getElementById('cartCount').innerText = cartCount;
+
+document.getElementById('cartTotal').innerText = `R$ ${cartTotal.toFixed(2).replace('.', ',')}`;
+
+
+// Animação visual no carrinho flutuante
+
+const cart = document.querySelector('.floating-cart');
+
+cart.style.transform = 'scale(1.1)';
+
+setTimeout(() => cart.style.transform = 'scale(1)', 200);
+
+}
+
+
+
+function addToCartModal() {
+
+if(currentModalDish) {
+
+addToCart(currentModalDish.nomeClaro, currentModalDish.preco);
+
+closeModal();
+
+}
+
+}
+
+
+
+// Inicialização
+
+renderDishes();
+
+</script>
+
+</body>
+
+</html>

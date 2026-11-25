@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --canvas: #fafaf9;
+  --surface: #ffffff;
+  --surface-subtle: #f5f5f4;
+  --ink-primary: #1c1917;
+  --ink-secondary: #57534e;
+  --ink-muted: #78716c;
+  --hairline: #e7e5e4;
+  --accent: #9a3412;
+  --accent-hover: #7c2d12;
+  --accent-soft: #fff7ed;
+}
+
+/* Modo Texto Ampliado e Alto Contraste (Acessibilidade — Persona Maria das Graças) */
+html.senior-mode {
+  font-size: 19px;
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --surface-subtle: #f5f5f4;
+  --ink-primary: #000000;
+  --ink-secondary: #1c1917;
+  --ink-muted: #292524;
+  --hairline: #78716c;
+  --accent: #7c2d12;
+  --accent-hover: #5c1f0c;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--canvas);
+  color: var(--ink-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Touch targets ampliados no Modo Texto Ampliado */
+html.senior-mode button,
+html.senior-mode input {
+  min-height: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

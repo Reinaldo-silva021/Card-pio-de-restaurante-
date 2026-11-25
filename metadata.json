@@ -1,0 +1,6 @@
+{
+  "name": "Sabor & Tradição — Cardápio Digital",
+  "description": "Cardápio digital interativo do Restaurante Sabor & Tradição com filtros de alergênicos, modo texto ampliado e resumo completo do pedido da Mesa 04.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
